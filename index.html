@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <div class="box-calculator">
+                <h2>Age calculator</h2>
+                <div class="input-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob">
+                </div>
+                <div class="input-group">
+                    <label for="toDate">Age at the Date of:</label>
+                    <input type="date" id="toDate">
+                </div>
+                <button onclick="calculetAge()">Claculet</button>
+                <div id="resultBox" class="result">
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        window.onload = function () {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, "0")
+            const momt = String(today.getMonth() + 1).padStart(2, "0")
+            const dd = String(today.getDate()).padStart(2, "0")
+            console.log(momt)
+            document.getElementById("toDate").value = `${yyyy}-${mm}-${dd}`
+        };
+
+        function calculetAge() {
+            const dob = new Date(document.getElementById("dob").value);
+            const toDate = new Date(document.getElementById("toDate").value);
+
+            if (!dob || !toDate) {
+                alert("Enter a Date.")
+                console.log("Enter a Date.")
+                return;
+            }
+            if (dob > toDate) {
+                const output = `<h4 class="error-mach">Date of birth needs to be earlier than the age at date.</h4>`;
+                document.getElementById("resultBox").style.display = "block";
+                document.getElementById("resultBox").innerHTML = output;
+                return;
+            }
+            let years = toDate.getFullYear() - dob.getFullYear();
+            let months = toDate.getMonth() - dob.getMonth();
+            let days = toDate.getDay() - dob.getDay();
+
+            if (days < 0) {
+                months--;
+                const prevMonthDays = new Date(toDate.getFullYear(), toDate.getMonth(), 0).getDate();
+                days += prevMonthDays;
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const diffMs = toDate - dob;
+            const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const totalHours = totalDays * 24;
+            const totalMinutes = totalHours * 60;
+            const totalSeconds = totalMinutes * 60;
+            const totalWeeks = Math.floor(totalDays / 7);
+            const remainingDays = totalDays % 7;
+            const totalMonths = years * 12 + months;
+            console.log(`${years} years ${months} months ${days} days`);
+            console.log(`or ${totalMonths} months ${days} days`);
+            console.log(`or ${totalWeeks} weeks ${remainingDays} days`);
+            console.log(`or ${totalDays} days`);
+            console.log(`or ${totalHours} hours`);
+            console.log(`or ${totalMinutes} minutes`);
+            console.log(`or ${totalSeconds} seconds`);
+
+            const output = `
+            <b>Result</b><br>
+            <b>Age:</b><br>
+            ${years} years ${months} months ${days} days<br>
+            or ${totalMonths} months ${days} days<br>
+            or ${totalWeeks} weeks ${remainingDays} days<br>
+            or ${totalDays} days<br>
+            or ${totalHours} hours<br>
+            or ${totalMinutes} minutes<br>
+            or ${totalSeconds} seconds
+        `;
+            document.getElementById("resultBox").style.display = "block";
+            document.getElementById("resultBox").innerHTML = output;
+        }
+    </script>
+</body>
+
+</html>
