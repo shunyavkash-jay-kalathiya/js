@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+<section>
+    <div class="container">
+        <div class="bmi-box">
+            <h3>💪 BMI Calculator</h3>
+            <div class="subtitle">Calculate your Body Mass Index</div>
+
+            <div class="input-group">
+                <span class="input-icon">🧍</span>
+                <input type="number" name="age" id="age" placeholder="Enter your age">
+            </div>
+
+            <div class="input-group">
+                <span class="input-icon">⏲️</span>
+                <input type="number" name="weight" id="weight" placeholder="Enter weight (kg)">
+            </div>
+
+            <div class="input-group">
+                <span class="input-icon">🧍↕</span>
+                <input type="number" name="height" id="height" placeholder="Enter height (cm)">
+            </div>
+
+            <div class="checkbox-wrapper">
+                <div class="checkbox-content">
+                    <input type="checkbox" name="male" id="male" class="add" onclick="selectGender('male')">
+                    <label for="male" class="checkbox-label">👨 Male</label>
+                </div>
+                <div class="checkbox-content">
+                    <input type="checkbox" name="female" id="female" class="add" onclick="selectGender('female')">
+                    <label for="female" class="checkbox-label">👩 Female</label>
+                </div>
+            </div>
+
+            <button onclick="checkBmi()">Calculate BMI</button>
+            <div id="bmiResult" class="result"></div>
+        </div>
+    </div>
+</section>
+    <script>
+        const gendre = "";
+        function selectGendre(gen) {
+            if (gen === "male") {
+                document.querySelector("#female").checked = false;
+                const gendre = "male";
+            } else {
+                document.querySelector("#male").checked = false;
+                const gendre = "female";
+            }
+        }
+
+        const checkBmi = () => {
+            const w = Number(document.querySelector("#weight").value);
+            const age = Number(document.querySelector("#age").value);
+            const hCm = Number(document.querySelector("#height").value);
+
+            const h = hCm / 100;
+          if (!w || !h || !age) {
+                document.getElementById("bmiResult").style.display = "block";
+                document.getElementById("bmiResult").innerHTML = "<p>Please fill all fields ❌</p>";
+                return;
+            }
+            const bmi = (w / (h * h)).toFixed(1);
+            console.log(bmi, "total bim")
+            let msg = " ";
+
+            if (age >= 2 && age <= 19) {
+                if (age < 15) {
+                    msg = "Underweight (Child)";
+                }
+                else if (age < 20) {
+                    msg = "Normal (Child)";
+                }
+                else if (age < 24) {
+                    msg = "Overweight (Child)";
+                }
+                else msg = "Obese (Child)";
+            }
+            else if (age > 19 && age <= 60) {
+                if (age < 0) {
+                    msg = "Underweight (Adult)";
+                }
+                else if (age < 18.5) {
+                    msg = "Normal (Adult)";
+                }
+                else if (age < 24.9) {
+                    msg = "Overweight (Adult)";
+                }
+                else if (age < 29.9) {
+                    msg = "Overweight (Adult)";
+                }
+                else msg = "Obese (Adult)";
+            }
+            else if (age > 60) {
+                if (age < 22) {
+                    msg = "Underweight (Senior)";
+                }
+                else if (age < 27) {
+                    msg = "Normal (Senior)";
+                }
+                else if (age < 31) {
+                    msg = "Overweight (Senior)";
+                }
+                else msg = "Obese (Senior)";
+            }
+            const output = `
+        <h4>Result:</h4>
+        <h3>BMI: ${bmi} → ${msg}</h3>
+        `;
+            document.getElementById("bmiResult").style.display = "block";
+            document.querySelector("#bmiResult").innerHTML = output;
+        }
+
+    </script>
+</body>
+
+</html>
